@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>じゃんけんカウンター</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+        .player {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h2 {
+            margin-top: 0;
+        }
+        .counter {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #f0f0f0;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        button:hover {
+            background-color: #e0e0e0;
+        }
+        .count {
+            margin: 0 10px;
+            min-width: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="player" id="player1">
+            <h2>プレイヤー</h2>
+        </div>
+        <div class="player" id="player2">
+            <h2>対戦相手</h2>
+        </div>
+    </div>
+
+    <script>
+        const items = ['グー', 'チョキ', 'パー', '仕切り直し', '暗闇'];
+        const players = ['player1', 'player2'];
+
+        function createCounter(playerId, item) {
+            const player = document.getElementById(playerId);
+            const counterDiv = document.createElement('div');
+            counterDiv.className = 'counter';
+            counterDiv.innerHTML = `
+                <span>${item}</span>
+                <div>
+                    <button onclick="decrement('${playerId}', '${item}')">-</button>
+                    <span class="count" id="${playerId}-${item}">3</span>
+                    <button onclick="increment('${playerId}', '${item}')">+</button>
+                </div>
+            `;
+            player.appendChild(counterDiv);
+        }
+
+        function increment(playerId, item) {
+            const countElement = document.getElementById(`${playerId}-${item}`);
+            countElement.textContent = parseInt(countElement.textContent) + 1;
+        }
+
+        function decrement(playerId, item) {
+            const countElement = document.getElementById(`${playerId}-${item}`);
+            const currentValue = parseInt(countElement.textContent);
+            if (currentValue > 0) {
+                countElement.textContent = currentValue - 1;
+            }
+        }
+
+        players.forEach(player => {
+            items.forEach(item => {
+                createCounter(player, item);
+            });
+        });
+    </script>
+</body>
+</html>
